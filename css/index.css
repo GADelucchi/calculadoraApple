@@ -1,0 +1,15 @@
+* {
+    box-sizing: border-box;
+}
+
+.header {
+    height: 9vh
+}
+
+.header-title {
+    margin: 0rem;
+}
+
+.header-text {
+    margin: 0rem;
+}

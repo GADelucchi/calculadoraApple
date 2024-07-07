@@ -2,14 +2,10 @@
     box-sizing: border-box;
 }
 
-.header {
-    height: 9vh
+main {
+    height: 86vh
 }
 
-.header-title {
-    margin: 0rem;
-}
-
-.header-text {
-    margin: 0rem;
+footer {
+    height: 5vh
 }

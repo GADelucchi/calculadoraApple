@@ -13,6 +13,8 @@ calculate1 = () => {
     let efectDollarized
     let resultCuotas
 
+    console.log("precio: " + price, "dolar: " + dollar, "dolar aumentado: " + dollarPlusEfect);
+
     if (!efect) {
         efect = 0
     } else {
@@ -25,7 +27,6 @@ calculate1 = () => {
             result = price * dollarPlusEfect
             pagos = 1
             resultCuotas = result
-
             break;
         case 'transfer':
             result = price * dollarTransf * 1.10

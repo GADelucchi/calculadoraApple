@@ -69,7 +69,7 @@ calculate1 = () => {
             resultCuotas = result / pagos
             break;
         case 'usdt':
-            result = price * 1.10
+            result = price * 1.05
             pagos = 1
             resultCuotas = result / pagos
             break;

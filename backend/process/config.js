@@ -7,17 +7,7 @@ dotenv.config({
 })
 
 const port = process.env.PORT
-const mailUser = process.env.MAIL_USER
-const mailPass = process.env.MAIL_PASS
-const server = process.env.SERVER
-const smtp_port = process.env.SMTP_PORT
-const mailReceiver = process.env.MAIL_RECEIVER
 
 module.exports = {
     port,
-    mailUser,
-    mailPass,
-    server,
-    smtp_port,
-    mailReceiver
 }

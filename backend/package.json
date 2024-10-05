@@ -4,6 +4,8 @@
   "description": "calculadoraApple services",
   "main": "app.js",
   "scripts": {
+    "start:dev": "nodemon app.js --mode development",
+    "start": "node app.js --mode production",
     "test": "mocha test/supertest.test.js"
   },
   "repository": {

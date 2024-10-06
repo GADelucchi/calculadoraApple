@@ -1,5 +1,4 @@
 // Imports
-const { logger } = require("../config/logger");
 const { getDollarBlue } = require("../utils/getDollar");
 const { RouterClass } = require("./routerClass");
 
@@ -9,10 +8,22 @@ class DollarRouter extends RouterClass {
   init() {
     this.get('/', async (req, res) => {
       try {
-        getDollarBlue()
-        // logger.info('Dolar Blue en router: ', dollarBlue)
-      } catch {
+        const dollarBlueString = await getDollarBlue()
 
+        const dollarBlueNumber = Number(dollarBlueString.replace(',', '.'))
+        console.log(typeof(dollarBlueNumber), dollarBlueNumber);
+
+        res.status(200).json({
+          success: true,
+          dollarBlue: dollarBlueNumber
+        })
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          message: 'Error al obtener el valor del dólar',
+          error: error.message
+        })
+        throw new Error(error)
       }
     })
   }

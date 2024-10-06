@@ -1,11 +1,37 @@
+// Variable global
+const url = 'http://localhost:8080/api/dollar'
+let dollarBlue
+let dollarPlusEfect
+
 // Declaración de funciones
+const fetchDollarBlue = async () => {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Error al obtener el dólar blue');
+        }
+        const data = await response.json(); // Convierte la respuesta a JSON
+        console.log('Dólar Blue desde el servidor:', data.dollarBlue); // Muestra el valor en la consola
+
+        dollarBlue = data.dollarBlue
+        console.log(dollarBlue);
+
+        dollarPlusEfect = dollarBlue + 50
+        console.log(dollarPlusEfect);
+
+        // Por ejemplo, puedes actualizar el DOM
+        document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarPlusEfect}`;
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+
 // calculate1 calcula de dólares a pesos con los distintos métodos de pago
 calculate1 = () => {
     let price = parseFloat(document.getElementById('priceDollarInput').value)
-    let dollar = parseFloat(document.getElementById('dollarInput1').value)
-    let dollarPlusEfect = dollar + 50
-    let dollarTransf = dollar + 50
-    let dollarPlusFact = dollar + 100
+    let dollarTransf = dollarBlue + 50
+    let dollarPlusFact = dollarBlue + 100
     let efect = parseFloat(document.getElementById('efectInput').value)
     let method = document.getElementById('methodSelect').value
     let result = 0
@@ -13,7 +39,7 @@ calculate1 = () => {
     let efectDollarized
     let resultCuotas
 
-    console.log("precio: " + price, "dolar: " + dollar, "dolar aumentado: " + dollarPlusEfect);
+    document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarPlusEfect}`;
 
     if (!efect) {
         efect = 0
@@ -109,10 +135,9 @@ calculate1 = () => {
 // calculate2 calcula de pesos a dólares (pensado más que nada para accesorios)
 calculate2 = () => {
     let price = parseFloat(document.getElementById('pricePesosInput').value)
-    let dollar = parseFloat(document.getElementById('dollarInput2').value)
     let result = 0
 
-    result = price / dollar
+    result = price / dollarBlue
 
     let formattedResult = result.toLocaleString('es-AR', {
         style: 'currency',
@@ -133,3 +158,6 @@ document.getElementById('calculateForm2').addEventListener('submit', function (e
     event.preventDefault();
     calculate2();
 })
+
+// Ejecución al cargar la página
+window.onload = fetchDollarBlue

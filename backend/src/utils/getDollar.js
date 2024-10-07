@@ -1,6 +1,5 @@
 // Imports
 const puppeteer = require('puppeteer');
-const { logger } = require('../config/logger');
 
 // Code
 const getDollarBlue = async () => {
@@ -17,6 +16,8 @@ const getDollarBlue = async () => {
   const secondElement = elements[1]
 
   const value = await page.evaluate(el => el.innerText, secondElement);
+
+  // console.log('Dolar en getDollar.js: ', value);
 
   await browser.close();
 

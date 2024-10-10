@@ -1,6 +1,6 @@
 // Variable global
-const url = 'https://calculadora-apple-sable.vercel.app/api/dollar'
-const streamUrl = 'https://calculadora-apple-sable.vercel.app/api/dollar/stream'; // Ruta para el EventSource
+const url = 'https://calculadora-apple-zeta.vercel.app/api/dollar'
+const streamUrl = 'https://calculadora-apple-zeta.vercel.app/api/dollar/stream'; // Ruta para el EventSource
 let dollarBlue
 let dollarPlusEfect
 

@@ -17,7 +17,7 @@ app.set('view engine', 'handlebars')
 app.use(express.json())
 app.use(cors({
     origin: '*',
-    methods: 'POST',
+    methods: 'GET',
     allowedHeaders: 'content-type',
     preflightContinue: false,
     optionsSuccessStatus: 204

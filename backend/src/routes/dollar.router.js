@@ -9,22 +9,6 @@ let clients = [] //Guardar las conexiones (clientes)
 // Code
 class DollarRouter extends RouterClass {
   init() {
-    this.get('/stream', (req, res) => {
-      res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-      res.flushHeaders(); // Envía los encabezados inmediatamente
-
-      // Agrega al cliente a la lista
-      clients.push(res);
-
-      // Remueve al cliente si cierra la conexión
-      req.on('close', () => {
-        clients = clients.filter(client => client !== res);
-        res.end();
-      });
-    });
-
     this.get('/', async (req, res) => {
       try {
         const dollarBlueString = await getDollarBlue()
@@ -43,12 +27,12 @@ class DollarRouter extends RouterClass {
           }
 
           console.log('Dolar post checkDollarValue en dollar.router.js: ', newDollarBlue); // 3
-        }, 20000);
+        }, 180000);
 
-        // res.status(200).json({
-        //   success: true,
-        //   dollarBlue: dollarBlueNumber
-        // })
+        res.status(200).json({
+          success: true,
+          dollarBlue: dollarBlueNumber
+        })
       } catch (error) {
         res.status(500).json({
           success: false,
@@ -58,6 +42,22 @@ class DollarRouter extends RouterClass {
         throw new Error(error)
       }
     })
+
+    this.get('/stream', (req, res) => {
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.flushHeaders(); // Envía los encabezados inmediatamente
+
+      // Agrega al cliente a la lista
+      clients.push(res);
+
+      // Remueve al cliente si cierra la conexión
+      req.on('close', () => {
+        clients = clients.filter(client => client !== res);
+        res.end();
+      });
+    });
   }
 }
 

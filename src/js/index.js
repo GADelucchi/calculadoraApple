@@ -1,45 +1,10 @@
 // Variable global
-const url = 'http://localhost:8080/api/dollar'
-const streamUrl = 'http://localhost:8080/api/dollar/stream'; // Ruta para el EventSource
-let dollarBlue
-let dollarPlusEfect
-
-// Declaración de funciones
-const fetchDollarBlue = async () => {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Error al obtener el dólar blue');
-        }
-        const data = await response.json(); // Convierte la respuesta a JSON
-        console.log('Dólar Blue desde el servidor:', data.dollarBlue); // Muestra el valor en la consola
-
-        dollarBlue = data.dollarBlue
-
-        updateDollarValue()
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
-const updateDollarValue = () => {
-    dollarPlusEfect = dollarBlue + 50;
-    console.log(dollarPlusEfect);
-
-    // Actualiza el DOM
-    document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarPlusEfect}`;
-};
-
-// Escuchar los cambios en tiempo real con EventSource
-const eventSource = new EventSource(streamUrl);
-eventSource.onmessage = function (event) {
-    dollarBlue = parseFloat(event.data); // Actualiza el valor del dólar
-    updateDollarValue(); // Actualiza la UI con el nuevo valor
-};
 
 // calculate1 calcula de dólares a pesos con los distintos métodos de pago
 calculate1 = () => {
     let price = parseFloat(document.getElementById('priceDollarInput').value);
+    let dollarBlue = parseFloat(document.getElementById('dollarInput').value);
+    let dollarPlusEfect = dollarBlue + 50
     let dollarTransf = dollarPlusEfect
     let dollarPlusFact = dollarBlue + 100;
     let efect = parseFloat(document.getElementById('efectInput').value);

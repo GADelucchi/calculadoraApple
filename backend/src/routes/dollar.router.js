@@ -29,7 +29,7 @@ class DollarRouter extends RouterClass {
       try {
         const dollarBlueString = await getDollarBlue()
         let dollarBlueNumber = stringToNumber(dollarBlueString)
-        console.log(typeof (dollarBlueNumber), dollarBlueNumber); // Ver tipo de dato y valor de dólar
+        // console.log(typeof (dollarBlueNumber), dollarBlueNumber); // Ver tipo de dato y valor de dólar
 
         setInterval(async () => {
           // console.log('DolarBlueNumber en dollar.router.js: ', dollarBlueNumber); // 1
@@ -45,10 +45,10 @@ class DollarRouter extends RouterClass {
           console.log('Dolar post checkDollarValue en dollar.router.js: ', newDollarBlue); // 3
         }, 20000);
 
-        res.status(200).json({
-          success: true,
-          dollarBlue: dollarBlueNumber
-        })
+        // res.status(200).json({
+        //   success: true,
+        //   dollarBlue: dollarBlueNumber
+        // })
       } catch (error) {
         res.status(500).json({
           success: false,

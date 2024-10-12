@@ -6,6 +6,10 @@ main {
     height: 86vh
 }
 
+.btn-outline-secondary {
+    color: #000;
+}
+
 footer {
     height: 5vh
 }

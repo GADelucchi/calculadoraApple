@@ -16,8 +16,8 @@
     <header class="d-flex flex-column align-items-center bg-body-secondary">
 
         <h2>Calculadora de precios</h2>
-        <p class="text-center">Esta calculadora es para conocer los precios de los equipos y pasar precios de accesorios
-            a dólares</p>
+        <p class="text-center">Esta calculadora es para conocer los precios de los equipos en pesos según el método de
+            pago y pasar precios de accesorios a dólares</p>
 
     </header>
 
@@ -27,9 +27,12 @@
 
             <form class="d-flex flex-column w-50" id="calculateForm1">
                 <p class="m-1 align-self-center">De dólares a pesos</p>
-                <input type="text" id="priceDollarInput" class="m-1 form-control" placeholder="Precio en dólares del producto">
-                <input type="text" id="efectInput" class="m-1 form-control" placeholder="Efectivo en pesos que quiere dejar para pagar con otro método combinado">
-                <select id="methodSelect" class="m-1 btn btn-outline-secondary dropdown-toggle">
+                <input type="text" id="priceDollarInput" class="m-1 form-control"
+                    placeholder="Precio en dólares del producto">
+                <input type="text" id="efectInput" class="m-1 form-control"
+                    placeholder="Efectivo en pesos que quiere dejar para pagar con otro método combinado">
+                <select id="methodSelect" class="m-1 btn btn-outline-secondary dropdown-toggle"
+                    aria-label="Selector de método de pago">
                     <option value="efect">Efectivo</option>
                     <option value="transfer">Transferencia</option>
                     <option value="debit">Débito</option>
@@ -89,5 +92,5 @@
     <script src="./src/js/index.js"></script>
 
 </body>
- 
+
 </html>

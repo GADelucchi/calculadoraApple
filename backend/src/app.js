@@ -6,13 +6,14 @@ const cors = require('cors')
 const routerServer = require('./routes/index.router.js')
 const { logger } = require('./config/logger.js')
 const { port } = require('../process/config.js')
+const path = require('path')
 
 // Instancia
 const app = express()
 
 // Config
-app.set('views', __dirname + '/views')
-app.set('view engine', 'handlebars')
+// app.set('views', __dirname + '/views')
+// app.set('view engine', 'handlebars')
 
 app.use(express.json())
 app.use(cors());
@@ -30,4 +31,4 @@ const httpServer = app.listen(port, (error) => {
 
 // Rutas
 app.use(routerServer)
-app.use(`/static`, express.static(__dirname + `/public`))
+app.use(express.static(path.join(__dirname, 'public')));

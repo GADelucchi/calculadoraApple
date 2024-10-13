@@ -1,6 +1,6 @@
 // Variable global
-const url = 'http://localhost:8080/api/dollar'
-const streamUrl = 'http://localhost:8080/api/dollar/stream'; // Ruta para el EventSource
+const url = 'https://calculadoraappleserver.onrender.com/api/dollar'
+const streamUrl = 'https://calculadoraappleserver.onrender.com/api/dollar/stream'; // Ruta para el EventSource
 let dollarBlue
 let dollarPlusEfect
 

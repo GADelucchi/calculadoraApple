@@ -108,6 +108,7 @@ calculate1 = () => {
 // calculate2 calcula de pesos a dólares (pensado más que nada para accesorios)
 calculate2 = () => {
     let price = parseFloat(document.getElementById('pricePesosInput').value)
+    let dollarBlue = parseFloat(document.getElementById('dollarInput2').value)
     let result = 0
 
     result = price / dollarBlue

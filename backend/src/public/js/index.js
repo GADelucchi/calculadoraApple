@@ -33,11 +33,11 @@ const updateDollarValue = () => {
 };
 
 // Escuchar los cambios en tiempo real con EventSource
-const eventSource = new EventSource(streamUrl);
-eventSource.onmessage = function (event) {
-    dollarBlue = parseFloat(event.data); // Actualiza el valor del dólar
-    updateDollarValue(); // Actualiza la UI con el nuevo valor
-};
+// const eventSource = new EventSource(streamUrl);
+// eventSource.onmessage = function (event) {
+//     dollarBlue = parseFloat(event.data); // Actualiza el valor del dólar
+//     updateDollarValue(); // Actualiza la UI con el nuevo valor
+// };
 
 // calculate1 calcula de dólares a pesos con los distintos métodos de pago
 calculate1 = () => {

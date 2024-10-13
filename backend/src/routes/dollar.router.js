@@ -39,7 +39,6 @@ class DollarRouter extends RouterClass {
           message: 'Error al obtener el valor del dólar',
           error: error.message
         })
-        throw new Error(error)
       }
     })
 

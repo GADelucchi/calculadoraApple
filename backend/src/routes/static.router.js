@@ -15,7 +15,6 @@ class StaticRouter extends RouterClass {
           error: error.message
         })
         console.log('Error al entrar a /static');
-        throw new Error(error)
       }
     })
   }

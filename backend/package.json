@@ -4,8 +4,8 @@
   "description": "calculadoraApple services",
   "main": "app.js",
   "scripts": {
-    "start:dev": "nodemon app.js --mode development",
-    "start": "node app.js --mode production",
+    "start:dev": "nodemon src/app.js --mode development",
+    "start": "node src/app.js --mode production",
     "test": "mocha test/supertest.test.js"
   },
   "repository": {
@@ -28,5 +28,6 @@
     "morgan": "^1.10.0",
     "puppeteer": "^23.5.0",
     "winston": "^3.14.2"
-  }
+  },
+  "devDependencies": {}
 }

@@ -1,6 +1,6 @@
 // Variable global
-const url = 'https://calculadora-apple-zeta.vercel.app/api/api/dollar'
-const streamUrl = 'https://calculadora-apple-zeta.vercel.app/api/api/dollar/stream'; // Ruta para el EventSource
+const url = 'http://localhost:8080/api/dollar'
+const streamUrl = 'http://localhost:8080/api/dollar/stream'; // Ruta para el EventSource
 let dollarBlue
 let dollarPlusEfect
 
@@ -170,4 +170,4 @@ document.getElementById('calculateForm2').addEventListener('submit', function (e
 })
 
 // Ejecución al cargar la página
-window.onload = fetchDollarBlue
+window.onload = fetchDollarBlue()

@@ -15,19 +15,19 @@ class DollarRouter extends RouterClass {
         let dollarBlueNumber = stringToNumber(dollarBlueString)
         // console.log(typeof (dollarBlueNumber), dollarBlueNumber); // Ver tipo de dato y valor de dólar
 
-        setInterval(async () => {
-          // console.log('DolarBlueNumber en dollar.router.js: ', dollarBlueNumber); // 1
-          const newDollarBlue = await checkDollarValue(dollarBlueNumber)
+        // // setInterval(async () => {
+        // //   // console.log('DolarBlueNumber en dollar.router.js: ', dollarBlueNumber); // 1
+        // //   const newDollarBlue = await checkDollarValue(dollarBlueNumber)
 
-          if (newDollarBlue !== dollarBlueNumber) {
-            dollarBlueNumber = newDollarBlue
-            clients.forEach(client => {
-              client.write(`data: ${dollarBlueNumber}\n\n`); // Envía el nuevo valor a los clientes
-            });
-          }
+        // //   if (newDollarBlue !== dollarBlueNumber) {
+        // //     dollarBlueNumber = newDollarBlue
+        // //     clients.forEach(client => {
+        // //       client.write(`data: ${dollarBlueNumber}\n\n`); // Envía el nuevo valor a los clientes
+        // //     });
+        // //   }
 
-          console.log('Dolar post checkDollarValue en dollar.router.js: ', newDollarBlue); // 3
-        }, 180000);
+        // //   console.log('Dolar post checkDollarValue en dollar.router.js: ', newDollarBlue); // 3
+        // // }, 300000);
 
         res.status(200).json({
           success: true,

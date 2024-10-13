@@ -3,9 +3,9 @@ const express = require('express')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const routerServer = require('./src/routes/index.router.js')
-const { logger } = require('./src/config/logger')
-const { port } = require('./process/config')
+const routerServer = require('./routes/index.router.js')
+const { logger } = require('./config/logger.js')
+const { port } = require('../process/config.js')
 
 // Instancia
 const app = express()
@@ -15,13 +15,7 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
 app.use(express.json())
-app.use(cors({
-    origin: '*',
-    methods: 'GET',
-    allowedHeaders: 'content-type',
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-}));
+app.use(cors());
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
@@ -36,3 +30,4 @@ const httpServer = app.listen(port, (error) => {
 
 // Rutas
 app.use(routerServer)
+app.use(`/static`, express.static(__dirname + `/public`))

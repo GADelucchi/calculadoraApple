@@ -1,5 +1,5 @@
 // Variable global
-const url = 'https://calculadoraappleserver.onrender.com/api/dollar'
+const url = 'https://calculadoraappleserver.onrender.com/gitapi/dollar'
 // const streamUrl = 'https://calculadoraappleserver.onrender.com/api/dollar/stream'; // Ruta para el EventSource
 let dollarBlue
 let dollarPlusEfect
@@ -8,7 +8,6 @@ let dollarPlusEfect
 const fetchDollarBlue = async () => {
     try {
         const response = await fetch(url);
-        console.log(JSON.stringify(response));
 
         if (!response.ok) {
             throw new Error('Error al obtener el dólar blue');

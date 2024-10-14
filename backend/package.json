@@ -6,7 +6,7 @@
   "scripts": {
     "start:dev": "nodemon src/app.js --mode development",
     "start": "node src/app.js --mode production",
-    "postinstall": "npx puppeteer install",
+    "postinstall": "npx puppeteer browsers install chrome",
     "test": "mocha test/supertest.test.js"
   },
   "repository": {

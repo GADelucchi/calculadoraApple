@@ -5,6 +5,7 @@ const puppeteer = require('puppeteer');
 const getDollarBlue = async () => {
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: '/opt/render/.cache/puppeteer/chrome-linux/chrome',
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
   const page = await browser.newPage();

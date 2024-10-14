@@ -1,5 +1,5 @@
 // Variable global
-const url = 'https://calculadoraappleserver.onrender.com/api/dollar/cucamonga'
+const url = 'https://calculadoraappleserver.onrender.com/api/dollar'
 // const streamUrl = 'https://calculadoraappleserver.onrender.com/api/dollar/stream'; // Ruta para el EventSource
 let dollarBlue
 let dollarPlusEfect

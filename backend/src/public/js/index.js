@@ -8,10 +8,10 @@ let dollarPlusEfect
 const fetchDollarBlue = async () => {
     try {
         const response = await fetch(url);
-        console.log(response);
+        console.log(toString(response));
 
         if (!response.ok) {
-            throw new Error('Error al obtener el dólar blue', response);
+            throw new Error('Error al obtener el dólar blue');
         }
         const data = await response.json(); // Convierte la respuesta a JSON
         console.log('Dólar Blue desde el servidor:', data.dollarBlue); // Muestra el valor en la consola

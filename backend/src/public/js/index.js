@@ -8,7 +8,7 @@ let dollarPlusEfect
 const fetchDollarBlue = async () => {
     try {
         const response = await fetch(url);
-        console.log(toString(response));
+        console.log(JSON.stringify(response));
 
         if (!response.ok) {
             throw new Error('Error al obtener el dólar blue');

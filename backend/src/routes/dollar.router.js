@@ -29,12 +29,12 @@ class DollarRouter extends RouterClass {
         // //   console.log('Dolar post checkDollarValue en dollar.router.js: ', newDollarBlue); // 3
         // // }, 300000);
 
-        res.status(200).json({
+        res.status(200).send({
           success: true,
           dollarBlue: dollarBlueNumber
         })
       } catch (error) {
-        res.status(500).json({
+        res.status(501).send({
           success: false,
           message: 'Error al obtener el valor del dólar',
           error: error.message

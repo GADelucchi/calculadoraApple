@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "nodemon src/app.js --mode development",
     "start": "node src/app.js --mode production",
+    "postinstall": "npx puppeteer install",
     "test": "mocha test/supertest.test.js"
   },
   "repository": {

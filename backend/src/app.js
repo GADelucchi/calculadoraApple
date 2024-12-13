@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
 // Middleware de terceros
-app.use(cookieParser('P@l@braS3cre3t0'))
+// app.use(cookieParser('P@l@braS3cre3t0'))
 
 // Puerto
 const httpServer = app.listen(port, (error) => {

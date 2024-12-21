@@ -68,7 +68,7 @@ calculate1 = () => {
             resultCuotas = result / pagos
             break;
         case 'usdt':
-            result = price * 1.05
+            result = price * 1.10
             pagos = 1
             resultCuotas = result / pagos
             break;
@@ -101,7 +101,7 @@ calculate1 = () => {
         document.getElementById('resultText1').textContent = `Total ${formattedResult} en ${pagos} pagos de ${formattedResultCuota}`
     } else if (method === 'paypal' ||
         method === 'usdt') {
-        document.getElementById('resultText1').textContent = `Total UD${formattedResult} en ${pagos} pago`
+        document.getElementById('resultText1').textContent = `Total US${formattedResult} en ${pagos} pago`
     }
 }
 

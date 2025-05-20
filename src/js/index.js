@@ -4,9 +4,7 @@
 calculate1 = () => {
     let price = parseFloat(document.getElementById('priceDollarInput').value);
     let dollarBlue = parseFloat(document.getElementById('dollarInput').value);
-    let dollarPlusEfect = dollarBlue + 50
-    let dollarTransf = dollarPlusEfect
-    let dollarPlusFact = dollarBlue + 100;
+    let dollarPlus = dollarBlue + 50
     let efect = parseFloat(document.getElementById('efectInput').value);
     let method = document.getElementById('methodSelect').value;
     let result = 0;
@@ -17,48 +15,48 @@ calculate1 = () => {
     if (!efect) {
         efect = 0;
     } else {
-        efectDollarized = efect / dollarPlusEfect;
+        efectDollarized = efect / dollarPlus;
         price = price - efectDollarized;
     }
 
     switch (method) {
         case 'efect':
-            result = price * dollarPlusEfect
+            result = price * dollarPlus
             pagos = 1
             resultCuotas = result
             break;
         case 'transfer':
-            result = price * dollarTransf * 1.10
+            result = price * dollarPlus * 1.10
             pagos = 1
             resultCuotas = result
             break;
         case 'debit':
-            result = price * dollarPlusFact * 1.35
+            result = price * dollarPlus * 1.35
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-1':
-            result = price * dollarPlusFact * 1.81
+            result = price * dollarPlus * 1.60
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-3':
-            result = price * dollarPlusFact * 1.81
+            result = price * dollarPlus * 1.65
             pagos = 3
             resultCuotas = result / pagos
             break;
         case 'credit-6':
-            result = price * dollarPlusFact * 2.11
+            result = price * dollarPlus * 1.90
             pagos = 6
             resultCuotas = result / pagos
             break;
         case 'credit-9':
-            result = price * dollarPlusFact * 2.41
+            result = price * dollarPlus * 2.18
             pagos = 9
             resultCuotas = result / pagos
             break;
         case 'credit-12':
-            result = price * dollarPlusFact * 2.71
+            result = price * dollarPlus * 2.48
             pagos = 12
             resultCuotas = result / pagos
             break;
@@ -68,7 +66,7 @@ calculate1 = () => {
             resultCuotas = result / pagos
             break;
         case 'usdt':
-            result = price * 1.10
+            result = price * 1.03
             pagos = 1
             resultCuotas = result / pagos
             break;

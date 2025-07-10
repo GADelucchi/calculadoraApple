@@ -22,21 +22,25 @@ calculate1 = () => {
     switch (method) {
         case 'efect':
             result = price * dollarPlus
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'transfer':
             result = price * dollarPlus * 1.10
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'debit':
             result = price * dollarPlus * 1.25
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-1':
             result = price * dollarPlus * 1.25
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
@@ -101,7 +105,7 @@ calculate1 = () => {
         method === 'transfer' ||
         method === 'debit' ||
         method === 'credit-1') {
-        document.getElementById('resultText1').textContent = `Total ${formattedResult} en ${pagos} pago`
+        document.getElementById('resultText1').textContent = `Total ${formattedClientResult} en ${pagos} pago`
     } else if (method === 'credit-3' ||
         method === 'credit-6' ||
         method === 'credit-9' ||

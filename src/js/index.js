@@ -112,7 +112,7 @@ calculate1 = () => {
         method === 'credit-12') {
         document.getElementById('resultText1').textContent = `Total que se le cobrará al cliente en el posnet: ${formattedClientResult} en ${pagos} pagos de ${formattedResultCuota}.
         <br>
-        <b>Total a ingresar en el posnet: ${result}.</b>`
+        <b>Total a ingresar en el posnet: ${formattedResult}.</b>`
     } else if (method === 'paypal' ||
         method === 'usdt') {
         document.getElementById('resultText1').textContent = `Total US${formattedResult} en ${pagos} pago`

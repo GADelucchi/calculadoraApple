@@ -7,7 +7,7 @@ calculate1 = () => {
     let dollarPlus = dollarBlue + 50
     let efect = parseFloat(document.getElementById('efectInput').value);
     let method = document.getElementById('methodSelect').value;
-    let result = 0;
+    let result;
     let pagos;
     let efectDollarized;
     let resultCuotas;
@@ -31,44 +31,48 @@ calculate1 = () => {
             resultCuotas = result
             break;
         case 'debit':
-            result = price * dollarPlus * 1.35
+            result = price * dollarPlus * 1.25
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-1':
-            result = price * dollarPlus * 1.60
+            result = price * dollarPlus * 1.25
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-3':
-            result = price * dollarPlus * 1.65
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.0925
             pagos = 3
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
             break;
         case 'credit-6':
-            result = price * dollarPlus * 1.90
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.1846
             pagos = 6
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
             break;
         case 'credit-9':
-            result = price * dollarPlus * 2.18
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.6396
             pagos = 9
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
             break;
         case 'credit-12':
-            result = price * dollarPlus * 2.48
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.9366
             pagos = 12
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
             break;
         case 'paypal':
             result = price * 1.20
             pagos = 1
-            resultCuotas = result / pagos
+            resultCuotas = result
             break;
         case 'usdt':
             result = price * 1.03
             pagos = 1
-            resultCuotas = result / pagos
+            resultCuotas = result
             break;
         default:
             result = price
@@ -78,7 +82,13 @@ calculate1 = () => {
     let formattedResult = result.toLocaleString('es-AR', {
         style: 'currency',
         currency: 'ARS',
-        minimumFractionDigits: 0
+        minimumFractionDigits: 2
+    })
+
+    let formattedClientResult = clientResult.toLocaleString('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        minimumFractionDigits: 2
     })
 
     let formattedResultCuota = resultCuotas.toLocaleString('es-AR', {
@@ -96,7 +106,8 @@ calculate1 = () => {
         method === 'credit-6' ||
         method === 'credit-9' ||
         method === 'credit-12') {
-        document.getElementById('resultText1').textContent = `Total ${formattedResult} en ${pagos} pagos de ${formattedResultCuota}`
+        document.getElementById('resultText1').textContent = `Total que se le cobrará al cliente en el posnet: ${formattedClientResult} en ${pagos} pagos de ${formattedResultCuota}.
+        Total a ingresar en el posnet: ${result}.`
     } else if (method === 'paypal' ||
         method === 'usdt') {
         document.getElementById('resultText1').textContent = `Total US${formattedResult} en ${pagos} pago`

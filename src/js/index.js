@@ -147,4 +147,4 @@ document.getElementById('calculateForm2').addEventListener('submit', function (e
 })
 
 // Ejecución al cargar la página
-window.onload = fetchDollarBlue
+// window.onload = fetchDollarBlue

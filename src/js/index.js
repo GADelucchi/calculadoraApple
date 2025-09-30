@@ -68,6 +68,12 @@ calculate1 = () => {
             pagos = 12
             resultCuotas = clientResult / pagos
             break;
+        case 'credit-18':
+            result = price * dollarPlus * 1.25
+            clientResult = result * 2.4830
+            pagos = 18
+            resultCuotas = clientResult / pagos
+            break;
         case 'paypal':
             result = price * 1.20
             pagos = 1

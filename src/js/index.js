@@ -76,11 +76,13 @@ calculate1 = () => {
             break;
         case 'paypal':
             result = price * 1.20
+            clientResult = result * 1;
             pagos = 1
             resultCuotas = result
             break;
         case 'usdt':
             result = price * 1.02
+            clientResult = result * 1;
             pagos = 1
             resultCuotas = result
             break;

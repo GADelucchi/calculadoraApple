@@ -27,7 +27,7 @@ calculate1 = () => {
             resultCuotas = result
             break;
         case 'transfer':
-            result = price * dollarPlus * 1.10
+            result = price * dollarPlus * 1.05
             clientResult = result
             pagos = 1
             resultCuotas = result

@@ -29,6 +29,7 @@
                 <p class="m-1 align-self-center">De dólares a pesos</p>
                 <input type="text" id="priceDollarInput" class="m-1 form-control"
                     placeholder="Precio en dólares del producto">
+                <input type="text" id="dollarInput" class="m-1 form-control" placeholder="Valor real del dólar">
                 <input type="text" id="efectInput" class="m-1 form-control"
                     placeholder="Efectivo en pesos que quiere dejar para pagar con otro método combinado">
                 <select id="methodSelect" class="m-1 btn btn-outline-secondary dropdown-toggle"
@@ -41,6 +42,7 @@
                     <option value="credit-6">Crédito 6 cuotas</option>
                     <option value="credit-9">Crédito 9 cuotas</option>
                     <option value="credit-12">Crédito 12 cuotas</option>
+                    <option value="credit-18">Crédito 18 cuotas</option>
                     <option value="paypal">Paypal</option>
                     <option value="usdt">USDT</option>
                 </select>
@@ -53,20 +55,24 @@
 
         </div>
 
-        <div id="dollar-value" class="d-flex flex-column align-items-center bg-body-secondary mt-5">Cargando...</div>
+        <!-- <div id="dollar-value" class="d-flex flex-column align-items-center bg-body-secondary mt-5">Cargando...</div> -->
 
-        <!-- <div class="d-flex flex-column align-items-center bg-body-secondary mt-5">
-            <p>ANTES DE USAR ESTA COTIZACIÓN REVISAR EN <a href="https://www.ambito.com/contenidos/dolar-informal.html"><strong>ambito.com</strong></a> PARA ESTAR SEGUROS DE QUE NO DIFIERE</p>
+        <div class="d-flex flex-column align-items-center bg-body-secondary mt-5">
+            <p>ANTES DE USAR ESTA COTIZACIÓN REVISAR EN <a
+                    href="https://www.ambito.com/contenidos/dolar-informal.html"><strong
+                        class="btn-outline-secondary">ambito.com</strong></a> PARA
+                ESTAR SEGUROS DE QUE NO DIFIERE</p>
             <iframe
                 style="width:320px;height:260px;border-radius:10px;box-shadow:2px 4px 4px rgb(0 0 0 / 25%);display:flex;justify-content:center;border:1px solid #bcbcbc"
-                src="https://dolarhoy.com/i/cotizaciones/dolar-blue" frameborder="0"></iframe>
-        </div> -->
+                src="https://dolarhoy.com/i/cotizaciones/dolar-blue" frameborder="0" title="Cotización dólar blue según DolarHoy"></iframe>
+        </div>
 
         <div class="d-flex flex-column align-items-center bg-body-secondary mt-5">
 
             <form class="d-flex flex-column w-50" id="calculateForm2">
                 <p class="m-1 align-self-center">De pesos a dólares</p>
                 <input type="text" id="pricePesosInput" class="m-1 form-control" placeholder="Precio en pesos">
+                <input type="text" id="dollarInput2" class="m-1 form-control" placeholder="Valor blue del dólar">
                 <button type="submit" class="btn btn-outline-secondary m-1">Calcular</button>
             </form>
 

@@ -1,54 +1,13 @@
 // Variable global
-const url = 'https://calculadoraappleserver.onrender.com/api/dollar'
-// const streamUrl = 'https://calculadoraappleserver.onrender.com/api/dollar/stream'; // Ruta para el EventSource
-let dollarBlue
-let dollarPlusEfect
-
-// Declaración de funciones
-const fetchDollarBlue = async () => {
-    try {
-        const response = await fetch(url);
-        console.log(response);
-
-        if (!response.ok) {
-            throw new Error('Error al obtener el dólar blue');
-        }
-        const data = await response.json(); // Convierte la respuesta a JSON
-        console.log(data);
-
-        console.log('Dólar Blue desde el servidor:', data.dollarBlue); // Muestra el valor en la consola
-
-        dollarBlue = data.dollarBlue
-
-        updateDollarValue()
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
-
-const updateDollarValue = () => {
-    dollarPlusEfect = dollarBlue + 50;
-    console.log(dollarPlusEfect);
-
-    // Actualiza el DOM
-    document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarPlusEfect}`;
-};
-
-// Escuchar los cambios en tiempo real con EventSource
-// const eventSource = new EventSource(streamUrl);
-// eventSource.onmessage = function (event) {
-//     dollarBlue = parseFloat(event.data); // Actualiza el valor del dólar
-//     updateDollarValue(); // Actualiza la UI con el nuevo valor
-// };
 
 // calculate1 calcula de dólares a pesos con los distintos métodos de pago
 calculate1 = () => {
     let price = parseFloat(document.getElementById('priceDollarInput').value);
-    let dollarTransf = dollarPlusEfect
-    let dollarPlusFact = dollarBlue + 100;
+    let dollarBlue = parseFloat(document.getElementById('dollarInput').value);
+    let dollarPlus = dollarBlue + 50
     let efect = parseFloat(document.getElementById('efectInput').value);
     let method = document.getElementById('methodSelect').value;
-    let result = 0;
+    let result;
     let pagos;
     let efectDollarized;
     let resultCuotas;
@@ -56,60 +15,76 @@ calculate1 = () => {
     if (!efect) {
         efect = 0;
     } else {
-        efectDollarized = efect / dollarPlusEfect;
+        efectDollarized = efect / dollarPlus;
         price = price - efectDollarized;
     }
 
     switch (method) {
         case 'efect':
-            result = price * dollarPlusEfect
+            result = price * dollarPlus
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'transfer':
-            result = price * dollarTransf * 1.10
+            result = price * dollarPlus * 1.10
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'debit':
-            result = price * dollarPlusFact * 1.35
+            result = price * dollarPlus * 1.25
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-1':
-            result = price * dollarPlusFact * 1.81
+            result = price * dollarPlus * 1.25
+            clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-3':
-            result = price * dollarPlusFact * 1.81
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.1163
             pagos = 3
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
             break;
         case 'credit-6':
-            result = price * dollarPlusFact * 2.11
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.2124
             pagos = 6
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
             break;
         case 'credit-9':
-            result = price * dollarPlusFact * 2.41
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.5199
             pagos = 9
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
             break;
         case 'credit-12':
-            result = price * dollarPlusFact * 2.71
+            result = price * dollarPlus * 1.25
+            clientResult = result * 1.7202
             pagos = 12
-            resultCuotas = result / pagos
+            resultCuotas = clientResult / pagos
+            break;
+        case 'credit-18':
+            result = price * dollarPlus * 1.25
+            clientResult = result * 2.5239
+            pagos = 18
+            resultCuotas = clientResult / pagos
             break;
         case 'paypal':
             result = price * 1.20
+            clientResult = result * 1;
             pagos = 1
-            resultCuotas = result / pagos
+            resultCuotas = result
             break;
         case 'usdt':
-            result = price * 1.05
+            result = price * 1.02
+            clientResult = result * 1;
             pagos = 1
-            resultCuotas = result / pagos
+            resultCuotas = result
             break;
         default:
             result = price
@@ -119,7 +94,13 @@ calculate1 = () => {
     let formattedResult = result.toLocaleString('es-AR', {
         style: 'currency',
         currency: 'ARS',
-        minimumFractionDigits: 0
+        minimumFractionDigits: 2
+    })
+
+    let formattedClientResult = clientResult.toLocaleString('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        minimumFractionDigits: 2
     })
 
     let formattedResultCuota = resultCuotas.toLocaleString('es-AR', {
@@ -132,21 +113,23 @@ calculate1 = () => {
         method === 'transfer' ||
         method === 'debit' ||
         method === 'credit-1') {
-        document.getElementById('resultText1').textContent = `Total ${formattedResult} en ${pagos} pago`
+        document.getElementById('resultText1').textContent = `Total ${formattedClientResult} en ${pagos} pago`
     } else if (method === 'credit-3' ||
         method === 'credit-6' ||
         method === 'credit-9' ||
         method === 'credit-12') {
-        document.getElementById('resultText1').textContent = `Total ${formattedResult} en ${pagos} pagos de ${formattedResultCuota}`
+        document.getElementById('resultText1').textContent = `Total que se le cobrará al cliente en el posnet: ${formattedClientResult} en ${pagos} pagos de ${formattedResultCuota}.
+        Total a ingresar en el posnet: ${formattedResult}.`
     } else if (method === 'paypal' ||
         method === 'usdt') {
-        document.getElementById('resultText1').textContent = `Total UD${formattedResult} en ${pagos} pago`
+        document.getElementById('resultText1').textContent = `Total US${formattedResult} en ${pagos} pago`
     }
 }
 
 // calculate2 calcula de pesos a dólares (pensado más que nada para accesorios)
 calculate2 = () => {
     let price = parseFloat(document.getElementById('pricePesosInput').value)
+    let dollarBlue = parseFloat(document.getElementById('dollarInput2').value)
     let result = 0
 
     result = price / dollarBlue
@@ -172,4 +155,4 @@ document.getElementById('calculateForm2').addEventListener('submit', function (e
 })
 
 // Ejecución al cargar la página
-window.onload = fetchDollarBlue()
+// window.onload = fetchDollarBlue

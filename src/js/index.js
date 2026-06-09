@@ -33,43 +33,43 @@ calculate1 = () => {
             resultCuotas = result
             break;
         case 'debit':
-            result = price * dollarPlus * 1.25
+            result = price * dollarPlus / 0.70
             clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-1':
-            result = price * dollarPlus * 1.25
+            result = price * dollarPlus / 0.70
             clientResult = result
             pagos = 1
             resultCuotas = result
             break;
         case 'credit-3':
-            result = price * dollarPlus * 1.25
+            result = price * dollarPlus / 0.70
             clientResult = result * 1.0983
             pagos = 3
             resultCuotas = clientResult / pagos
             break;
         case 'credit-6':
-            result = price * dollarPlus * 1.25
+            result = price * dollarPlus / 0.70
             clientResult = result * 1.1867
             pagos = 6
             resultCuotas = clientResult / pagos
             break;
         case 'credit-9':
-            result = price * dollarPlus * 1.25
+            result = price * dollarPlus / 0.70
             clientResult = result * 1.4733
             pagos = 9
             resultCuotas = clientResult / pagos
             break;
         case 'credit-12':
-            result = price * dollarPlus * 1.25
+            result = price * dollarPlus / 0.70
             clientResult = result * 1.6524
             pagos = 12
             resultCuotas = clientResult / pagos
             break;
         case 'credit-18':
-            result = price * dollarPlus * 1.25
+            result = price * dollarPlus / 0.70
             clientResult = result * 2.0716
             pagos = 18
             resultCuotas = clientResult / pagos
@@ -114,8 +114,10 @@ calculate1 = () => {
         method === 'debit' ||
         method === 'credit-1') {
         document.getElementById('resultText1').textContent = `Total ${formattedClientResult} en ${pagos} pago`
-    } else if (method === 'credit-3' ||
-        method === 'credit-6' ||
+    } else if (method === 'credit-3'){
+        document.getElementById('resultText1').textContent = `Total que se le cobrará al cliente en el posnet: ${formattedClientResult} en ${pagos} pagos de ${formattedResultCuota}.
+        Total a ingresar en el posnet: ${formattedClientResult}.`
+    } else if (method === 'credit-6' ||
         method === 'credit-9' ||
         method === 'credit-12') {
         document.getElementById('resultText1').textContent = `Total que se le cobrará al cliente en el posnet: ${formattedClientResult} en ${pagos} pagos de ${formattedResultCuota}.

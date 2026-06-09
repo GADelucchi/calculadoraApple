@@ -155,6 +155,3 @@ document.getElementById('calculateForm2').addEventListener('submit', function (e
     event.preventDefault();
     calculate2();
 })
-
-// Ejecución al cargar la página
-// window.onload = fetchDollarBlue

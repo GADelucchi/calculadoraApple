@@ -46,19 +46,19 @@ calculate1 = () => {
             break;
         case 'credit-3':
             result = price * dollarPlus / 0.70
-            clientResult = result * 1.0964
+            clientResult = result * 1.0983
             pagos = 3
             resultCuotas = clientResult / pagos
             break;
         case 'credit-6':
             result = price * dollarPlus / 0.70
-            clientResult = result * 1.1767
+            clientResult = result * 1.1867
             pagos = 6
             resultCuotas = clientResult / pagos
             break;
         case 'credit-9':
             result = price * dollarPlus / 0.70
-            clientResult = result * 1.4732
+            clientResult = result * 1.4733
             pagos = 9
             resultCuotas = clientResult / pagos
             break;

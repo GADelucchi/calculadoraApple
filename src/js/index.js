@@ -3,11 +3,11 @@ const PAYMENT_METHODS = {
     transfer:  { label: 'Transferencia',type: 'ars', cuotas: 1, factor: (base) => base * 1.05, coefCuotas: 1 },
     debit:     { label: 'Débito',       type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
     'credit-1':{ label: 'Crédito 1c',  type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
-    'credit-3':{ label: 'Crédito 3c',  type: 'ars', cuotas: 3, factor: (base) => base / 0.70, coefCuotas: 1.0983 },
-    'credit-6':{ label: 'Crédito 6c',  type: 'ars', cuotas: 6, factor: (base) => base / 0.70, coefCuotas: 1.1867 },
-    'credit-9':{ label: 'Crédito 9c',  type: 'ars', cuotas: 9, factor: (base) => base / 0.70, coefCuotas: 1.4733 },
-    'credit-12':{ label: 'Crédito 12c',type: 'ars', cuotas: 12, factor: (base) => base / 0.70, coefCuotas: 1.6524 },
-    'credit-18':{ label: 'Crédito 18c',type: 'ars', cuotas: 18, factor: (base) => base / 0.70, coefCuotas: 2.0716 },
+    'credit-3':{ label: 'Crédito 3c',  type: 'ars', cuotas: 3, factor: (base) => base / 0.70, coefCuotas: 1.0620 },
+    'credit-6':{ label: 'Crédito 6c',  type: 'ars', cuotas: 6, factor: (base) => base / 0.70, coefCuotas: 1.1030 },
+    'credit-9':{ label: 'Crédito 9c',  type: 'ars', cuotas: 9, factor: (base) => base / 0.70, coefCuotas: 1.1530 },
+    'credit-12':{ label: 'Crédito 12c',type: 'ars', cuotas: 12, factor: (base) => base / 0.70, coefCuotas: 1.1950 },
+    'credit-18':{ label: 'Crédito 18c',type: 'ars', cuotas: 18, factor: (base) => base / 0.70, coefCuotas: 1.2610 },
     paypal:    { label: 'PayPal',       type: 'usd', cuotas: 1, factor: (base) => base * 1.20, coefCuotas: 1 },
     usdt:      { label: 'USDT',         type: 'usd', cuotas: 1, factor: (base) => base * 1.02, coefCuotas: 1 },
 }
@@ -37,15 +37,18 @@ function calcDolarAPesos() {
     let texto
 
     if (config.type === 'usd') {
-        texto = `Total US${formatUSD(baseResult)} en ${config.cuotas} pago`
+        texto = `El total es de ${formatUSD(baseResult)}`
     } else if (config.cuotas === 1) {
-        texto = `Total ${formatARS(clientResult)} en ${config.cuotas} pago`
-    } else if (method === 'credit-3') {
-        texto = `Total que se le cobrará al cliente en el posnet: ${formatARS(clientResult)} en ${config.cuotas} pagos de ${formatARS(cuotaResult)}.\n` +
-                `Total a ingresar en el posnet: ${formatARS(clientResult)}.`
+        texto = `El total a cobrar es ${formatARS(clientResult)} en ${config.cuotas} cuota`
+    // } else if (method === 'credit-3') {
+    //     texto = `Total que se le cobrará al cliente en el posnet: ${formatARS(clientResult)} en ${config.cuotas} pagos de ${formatARS(cuotaResult)}.\n` +
+    //             `Total a ingresar en el posnet: ${formatARS(clientResult)}.`
+    // } else {
+    //     texto = `Total que se le cobrará al cliente en el posnet: ${formatARS(clientResult)} en ${config.cuotas} pagos de ${formatARS(cuotaResult)}.\n` +
+    //             `Total a ingresar en el posnet: ${formatARS(baseResult)}.`
+    // }
     } else {
-        texto = `Total que se le cobrará al cliente en el posnet: ${formatARS(clientResult)} en ${config.cuotas} pagos de ${formatARS(cuotaResult)}.\n` +
-                `Total a ingresar en el posnet: ${formatARS(baseResult)}.`
+        texto = `El total a cobrar es ${formatARS(clientResult)}, en ${config.cuotas} cuotas de ${formatARS(cuotaResult)} cada una.`
     }
 
     document.getElementById('resultText1').textContent = texto

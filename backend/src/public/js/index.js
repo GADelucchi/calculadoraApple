@@ -1,6 +1,18 @@
-// Variable global
-const url = 'https://calculadoraapple.onrender.com/api/dollar'
-// const streamUrl = 'https://calculadoraapple.onrender.com/api/dollar/stream'; // Ruta para el EventSource
+// Variable global - URL dinámica según el host
+const getApiUrl = () => {
+    const host = window.location.host;
+    const protocol = window.location.protocol;
+    
+    // Si está en localhost, usar localhost
+    if (host.includes('localhost') || host.includes('127.0.0.1')) {
+        return `http://${host}/api/dollar`;
+    }
+    
+    // Si está en Render, usar HTTPS
+    return `https://${host}/api/dollar`;
+};
+
+const url = getApiUrl();
 let dollarBlue
 let dollarPlusEfect
 
@@ -10,6 +22,8 @@ const fetchDollarBlue = async () => {
         const dollarElement = document.getElementById('dollar-value');
         dollarElement.innerText = 'Cargando cotización...';
         dollarElement.style.color = '#6c757d'; // Color gris para indicar carga
+
+        console.log('🔗 Conectando a:', url); // Debug: mostrar URL siendo usada
 
         const response = await fetch(url);
         console.log(response);

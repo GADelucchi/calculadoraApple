@@ -61,7 +61,7 @@ const getDollarBlue = async () => {
 
   } catch (error) {
     console.error('❌ Error al obtener dólar:', error.message);
-    
+
     // Si hay error pero hay caché, retornar el caché aunque esté expirado
     if (cachedDollar) {
       console.log('⚠️ Usando caché expirado por error:', cachedDollar);
@@ -83,32 +83,49 @@ const scrapeDolarHoy = async () => {
     const $ = cheerio.load(response.data);
     let dollarValue = null;
 
-    // Buscar el valor VENTA del dólar blue
-    // Estrategia 1: Buscar en el contenedor de cotizaciones
-    $('div').each((index, element) => {
-      const text = $(element).text();
-      if (text.includes('BLUE') && text.includes('Venta')) {
-        const match = text.match(/(\d+[.,]\d{1,2})/);
+    // Estrategia 1: Buscar específicamente div.venta > div.val (selectores directos)
+    // Esta es la estructura más estable en dolarhoy.com
+    const ventaDiv = $('div.venta div.val');
+    if (ventaDiv.length > 0) {
+      const text = ventaDiv.first().text().trim();
+      const match = text.match(/\$?\s*(\d+[.,]\d{1,2})/);
+      if (match && match[1]) {
+        dollarValue = match[1];
+      }
+    }
+
+    // Estrategia 2: Buscar por contenedor BLUE y luego específicamente div.venta
+    if (!dollarValue) {
+      const blueContainer = $('a:contains("Dólar blue")').closest('div').find('div.venta div.val');
+      if (blueContainer.length > 0) {
+        const text = blueContainer.first().text().trim();
+        const match = text.match(/\$?\s*(\d+[.,]\d{1,2})/);
         if (match && match[1]) {
           dollarValue = match[1];
-          return false; // Break
         }
       }
-    });
+    }
 
-    // Estrategia 2: Búsqueda general por número
+    // Estrategia 3: Buscar en cualquier div.venta que contenga "BLUE" en su contexto
     if (!dollarValue) {
-      const bodyHTML = $('body').html();
-      const matches = bodyHTML.match(/Venta[^0-9]*(\d+[.,]\d{1,2})/i);
-      if (matches && matches[1]) {
-        dollarValue = matches[1];
-      }
+      $('div.venta').each((index, element) => {
+        const parentText = $(element).parent().text();
+        if (parentText.includes('BLUE') || parentText.includes('blue')) {
+          const val = $(element).find('div.val').text().trim();
+          const match = val.match(/\$?\s*(\d+[.,]\d{1,2})/);
+          if (match && match[1]) {
+            dollarValue = match[1];
+            return false;
+          }
+        }
+      });
     }
 
     if (!dollarValue) {
       throw new Error('No se encontró el valor de venta en dolarhoy.com');
     }
 
+    console.log('✅ Valor VENTA extraído de dolarhoy.com:', dollarValue);
     return dollarValue;
   } catch (error) {
     throw new Error(`Error scrapeando dolarhoy.com: ${error.message}`);

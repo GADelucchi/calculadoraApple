@@ -2,12 +2,12 @@
 const getApiUrl = () => {
     const host = window.location.host;
     const protocol = window.location.protocol;
-    
+
     // Si está en localhost, usar localhost
     if (host.includes('localhost') || host.includes('127.0.0.1')) {
         return `http://${host}/api/dollar`;
     }
-    
+
     // Si está en Render, usar HTTPS
     return `https://${host}/api/dollar`;
 };
@@ -60,15 +60,8 @@ const updateDollarValue = () => {
     console.log(dollarPlusEfect);
 
     // Actualiza el DOM
-    document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarBlue.toFixed(2)} | Venta+50: $${dollarPlusEfect.toFixed(2)}`;
+    document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarBlue.toFixed(2)}`;
 };
-
-// Escuchar los cambios en tiempo real con EventSource
-// const eventSource = new EventSource(streamUrl);
-// eventSource.onmessage = function (event) {
-//     dollarBlue = parseFloat(event.data); // Actualiza el valor del dólar
-//     updateDollarValue(); // Actualiza la UI con el nuevo valor
-// };
 
 // calculate1 calcula de dólares a pesos con los distintos métodos de pago
 calculate1 = async () => {

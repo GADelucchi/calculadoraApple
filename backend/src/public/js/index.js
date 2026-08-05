@@ -16,6 +16,24 @@ const url = getApiUrl();
 let dollarBlue
 let dollarPlusEfect
 
+// Configuración de métodos de pago
+const PAYMENT_METHODS = {
+    efect: { label: 'Efectivo', type: 'ars', cuotas: 1, factor: (base) => base, coefCuotas: 1 },
+    transfer: { label: 'Transferencia', type: 'ars', cuotas: 1, factor: (base) => base * 1.05, coefCuotas: 1 },
+    debit: { label: 'Débito', type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
+    'credit-1': { label: 'Crédito 1c', type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
+    'credit-3': { label: 'Crédito 3c', type: 'ars', cuotas: 3, factor: (base) => base / 0.70, coefCuotas: 1.0620 },
+    'credit-6': { label: 'Crédito 6c', type: 'ars', cuotas: 6, factor: (base) => base / 0.70, coefCuotas: 1.1030 },
+    'credit-9': { label: 'Crédito 9c', type: 'ars', cuotas: 9, factor: (base) => base / 0.70, coefCuotas: 1.1530 },
+    'credit-12': { label: 'Crédito 12c', type: 'ars', cuotas: 12, factor: (base) => base / 0.70, coefCuotas: 1.1950 },
+    'credit-18': { label: 'Crédito 18c', type: 'ars', cuotas: 18, factor: (base) => base / 0.70, coefCuotas: 1.2610 },
+    paypal: { label: 'PayPal', type: 'usd', cuotas: 1, factor: (base) => base * 1.20, coefCuotas: 1 },
+    usdt: { label: 'USDT', type: 'usd', cuotas: 1, factor: (base) => base * 1.02, coefCuotas: 1 },
+}
+
+const formatARS = (n) => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 })
+const formatUSD = (n) => n.toLocaleString('es-AR', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 })
+
 // Declaración de funciones
 const fetchDollarBlue = async () => {
     try {
@@ -76,104 +94,52 @@ calculate1 = async () => {
     }
 
     let price = parseFloat(document.getElementById('priceDollarInput').value);
-    let dollarTransf = dollarPlusEfect
-    let dollarPlusFact = dollarBlue + 100;
-    let efect = parseFloat(document.getElementById('efectInput').value);
+    let efect = parseFloat(document.getElementById('efectInput').value) || 0;
     let method = document.getElementById('methodSelect').value;
-    let result = 0;
-    let pagos;
-    let efectDollarized;
-    let resultCuotas;
 
-    if (!efect) {
-        efect = 0;
-    } else {
-        efectDollarized = efect / dollarPlusEfect;
-        price = price - efectDollarized;
+    // Obtener configuración del método
+    const config = PAYMENT_METHODS[method];
+    if (!config) return;
+
+    // Descontar efectivo si aplica
+    if (efect > 0) {
+        price -= efect / dollarPlusEfect;
     }
 
-    switch (method) {
-        case 'efect':
-            result = price * dollarPlusEfect
-            pagos = 1
-            resultCuotas = result
-            break;
-        case 'transfer':
-            result = price * dollarTransf * 1.10
-            pagos = 1
-            resultCuotas = result
-            break;
-        case 'debit':
-            result = price * dollarPlusFact * 1.35
-            pagos = 1
-            resultCuotas = result
-            break;
-        case 'credit-1':
-            result = price * dollarPlusFact * 1.81
-            pagos = 1
-            resultCuotas = result
-            break;
-        case 'credit-3':
-            result = price * dollarPlusFact * 1.81
-            pagos = 3
-            resultCuotas = result / pagos
-            break;
-        case 'credit-6':
-            result = price * dollarPlusFact * 2.11
-            pagos = 6
-            resultCuotas = result / pagos
-            break;
-        case 'credit-9':
-            result = price * dollarPlusFact * 2.41
-            pagos = 9
-            resultCuotas = result / pagos
-            break;
-        case 'credit-12':
-            result = price * dollarPlusFact * 2.71
-            pagos = 12
-            resultCuotas = result / pagos
-            break;
-        case 'paypal':
-            result = price * 1.20
-            pagos = 1
-            resultCuotas = result / pagos
-            break;
-        case 'usdt':
-            result = price * 1.05
-            pagos = 1
-            resultCuotas = result / pagos
-            break;
-        default:
-            result = price
-            break;
-    }
+    // Calcular resultado
+    const dollarToUse = config.type === 'ars' ? dollarPlusEfect : 1;
+    const baseResult = config.factor(price * dollarToUse);
+    const clientResult = baseResult * config.coefCuotas;
+    const cuotaResult = clientResult / config.cuotas;
 
-    let formattedResult = result.toLocaleString('es-AR', {
+    // Formatear y mostrar resultado
+    let formattedResult = clientResult.toLocaleString('es-AR', {
         style: 'currency',
         currency: 'ARS',
         minimumFractionDigits: 0
-    })
+    });
 
-    let formattedResultCuota = resultCuotas.toLocaleString('es-AR', {
+    let formattedResultCuota = cuotaResult.toLocaleString('es-AR', {
         style: 'currency',
         currency: 'ARS',
         minimumFractionDigits: 2
-    })
+    });
 
-    if (method === 'efect' ||
-        method === 'transfer' ||
-        method === 'debit' ||
-        method === 'credit-1') {
-        document.getElementById('resultText1').textContent = `Total ${formattedResult} en ${pagos} pago`
-    } else if (method === 'credit-3' ||
-        method === 'credit-6' ||
-        method === 'credit-9' ||
-        method === 'credit-12') {
-        document.getElementById('resultText1').textContent = `Total ${formattedResult} en ${pagos} pagos de ${formattedResultCuota}`
-    } else if (method === 'paypal' ||
-        method === 'usdt') {
-        document.getElementById('resultText1').textContent = `Total UD${formattedResult} en ${pagos} pago`
+    let texto = '';
+    if (config.type === 'usd') {
+        formattedResult = clientResult.toLocaleString('es-AR', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0
+        });
+        texto = `El total es de ${formattedResult}`;
+    } else if (config.cuotas === 1) {
+        texto = `El total a cobrar es ${formattedResult} en ${config.cuotas} cuota`;
+    } else {
+        texto = `El total a cobrar es ${formattedResult} en ${config.cuotas} cuotas de ${formattedResultCuota} cada una`;
     }
+
+    document.getElementById('resultText1').textContent = texto;
 }
 
 // calculate2 calcula de pesos a dólares (pensado más que nada para accesorios)

@@ -1,12 +1,16 @@
 // Variable global
-const url = 'https://calculadoraappleserver.onrender.com/api/dollar'
-// const streamUrl = 'https://calculadoraappleserver.onrender.com/api/dollar/stream'; // Ruta para el EventSource
+const url = 'https://calculadoraapple.onrender.com/api/dollar'
+// const streamUrl = 'https://calculadoraapple.onrender.com/api/dollar/stream'; // Ruta para el EventSource
 let dollarBlue
 let dollarPlusEfect
 
 // Declaración de funciones
 const fetchDollarBlue = async () => {
     try {
+        const dollarElement = document.getElementById('dollar-value');
+        dollarElement.innerText = 'Cargando cotización...';
+        dollarElement.style.color = '#6c757d'; // Color gris para indicar carga
+
         const response = await fetch(url);
         console.log(response);
 
@@ -16,13 +20,24 @@ const fetchDollarBlue = async () => {
         const data = await response.json(); // Convierte la respuesta a JSON
         console.log(data);
 
+        if (!data.success || !data.dollarBlue) {
+            throw new Error('Respuesta inválida del servidor');
+        }
+
         console.log('Dólar Blue desde el servidor:', data.dollarBlue); // Muestra el valor en la consola
 
-        dollarBlue = data.dollarBlue
+        dollarBlue = parseFloat(data.dollarBlue);
 
-        updateDollarValue()
+        if (isNaN(dollarBlue)) {
+            throw new Error('Valor de dólar inválido');
+        }
+
+        updateDollarValue();
+        dollarElement.style.color = '#000'; // Volver a color normal
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error al obtener el dólar:', error);
+        document.getElementById('dollar-value').innerText = `Error: No se pudo obtener la cotización (${error.message})`;
+        document.getElementById('dollar-value').style.color = '#dc3545'; // Color rojo para error
     }
 };
 
@@ -31,7 +46,7 @@ const updateDollarValue = () => {
     console.log(dollarPlusEfect);
 
     // Actualiza el DOM
-    document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarPlusEfect}`;
+    document.getElementById('dollar-value').innerText = `Dólar Blue: $${dollarBlue.toFixed(2)} | Venta+50: $${dollarPlusEfect.toFixed(2)}`;
 };
 
 // Escuchar los cambios en tiempo real con EventSource
@@ -42,7 +57,17 @@ const updateDollarValue = () => {
 // };
 
 // calculate1 calcula de dólares a pesos con los distintos métodos de pago
-calculate1 = () => {
+calculate1 = async () => {
+    // Refrescar el valor del dólar antes de calcular
+    await fetchDollarBlue();
+
+    // Validar que se haya obtenido el valor del dólar
+    if (!dollarBlue || isNaN(dollarBlue)) {
+        console.error('No hay valor de dólar disponible para calcular');
+        document.getElementById('resultText1').textContent = 'Error: No se pudo obtener el valor del dólar. Intenta nuevamente.';
+        return;
+    }
+
     let price = parseFloat(document.getElementById('priceDollarInput').value);
     let dollarTransf = dollarPlusEfect
     let dollarPlusFact = dollarBlue + 100;
@@ -145,7 +170,17 @@ calculate1 = () => {
 }
 
 // calculate2 calcula de pesos a dólares (pensado más que nada para accesorios)
-calculate2 = () => {
+calculate2 = async () => {
+    // Refrescar el valor del dólar antes de calcular
+    await fetchDollarBlue();
+
+    // Validar que se haya obtenido el valor del dólar
+    if (!dollarBlue || isNaN(dollarBlue)) {
+        console.error('No hay valor de dólar disponible para calcular');
+        document.getElementById('resultText2').textContent = 'Error: No se pudo obtener el valor del dólar. Intenta nuevamente.';
+        return;
+    }
+
     let price = parseFloat(document.getElementById('pricePesosInput').value)
     let result = 0
 
@@ -161,14 +196,14 @@ calculate2 = () => {
 }
 
 // Ejecución onClick
-document.getElementById('calculateForm1').addEventListener('submit', function (event) {
+document.getElementById('calculateForm1').addEventListener('submit', async function (event) {
     event.preventDefault();
-    calculate1();
+    await calculate1();
 })
 
-document.getElementById('calculateForm2').addEventListener('submit', function (event) {
+document.getElementById('calculateForm2').addEventListener('submit', async function (event) {
     event.preventDefault();
-    calculate2();
+    await calculate2();
 })
 
 // Ejecución al cargar la página

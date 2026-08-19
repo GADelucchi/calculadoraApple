@@ -22,20 +22,24 @@ const IIBB = 0.005
 const ARANCEL_CREDITO = 0.0761
 const ARANCEL_DEBITO = 0.038
 
+// Margen extra que se busca retener por cobrar con tarjeta
+const MARKUP_TARJETA = 1.05
+
 // Como todas las tasas se aplican sobre el mismo total, se suman (no se encadenan divisiones)
-const grossUp = (...tasas) => 1 / (1 - tasas.reduce((a, b) => a + b, 0))
+// const grossUp = (...tasas) => 1 / (1 - tasas.reduce((a, b) => a + b, 0))
+const tarjeta = (...tasas) => MARKUP_TARJETA * grossUp(...tasas)
 
 // Configuración de métodos de pago
 const PAYMENT_METHODS = {
     efect: { label: 'Efectivo', type: 'ars', cuotas: 1, factor: 1 },
     transfer: { label: 'Transferencia', type: 'ars', cuotas: 1, factor: 1.05 },
-    debit: { label: 'Débito', type: 'ars', cuotas: 1, factor: grossUp(IVA, IIBB, ARANCEL_DEBITO) },
-    'credit-1': { label: 'Crédito 1c', type: 'ars', cuotas: 1, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0) },
-    'credit-3': { label: 'Crédito 3c', type: 'ars', cuotas: 3, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.07502) },
-    'credit-6': { label: 'Crédito 6c', type: 'ars', cuotas: 6, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.12463) },
-    'credit-9': { label: 'Crédito 9c', type: 'ars', cuotas: 9, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.18513) },
-    'credit-12': { label: 'Crédito 12c', type: 'ars', cuotas: 12, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.23595) },
-    'credit-18': { label: 'Crédito 18c', type: 'ars', cuotas: 18, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.31581) },
+    debit: { label: 'Débito', type: 'ars', cuotas: 1, factor: tarjeta(IVA, IIBB, ARANCEL_DEBITO) },
+    'credit-1': { label: 'Crédito 1c', type: 'ars', cuotas: 1, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0) },
+    'credit-3': { label: 'Crédito 3c', type: 'ars', cuotas: 3, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.07502) },
+    'credit-6': { label: 'Crédito 6c', type: 'ars', cuotas: 6, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.12463) },
+    'credit-9': { label: 'Crédito 9c', type: 'ars', cuotas: 9, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.18513) },
+    'credit-12': { label: 'Crédito 12c', type: 'ars', cuotas: 12, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.23595) },
+    'credit-18': { label: 'Crédito 18c', type: 'ars', cuotas: 18, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.31581) },
     paypal: { label: 'PayPal', type: 'usd', cuotas: 1, factor: 1.20 },
     usdt: { label: 'USDT', type: 'usd', cuotas: 1, factor: 1.02 },
 }

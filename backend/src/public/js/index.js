@@ -16,19 +16,28 @@ const url = getApiUrl();
 let dollarBlue
 let dollarPlusEfect
 
+// Retenciones y comisiones, todas calculadas sobre el TOTAL cobrado
+const IVA = 0.21
+const IIBB = 0.005
+const ARANCEL_CREDITO = 0.0761
+const ARANCEL_DEBITO = 0.038
+
+// Como todas las tasas se aplican sobre el mismo total, se suman (no se encadenan divisiones)
+const grossUp = (...tasas) => 1 / (1 - tasas.reduce((a, b) => a + b, 0))
+
 // Configuración de métodos de pago
 const PAYMENT_METHODS = {
-    efect: { label: 'Efectivo', type: 'ars', cuotas: 1, factor: (base) => base, coefCuotas: 1 },
-    transfer: { label: 'Transferencia', type: 'ars', cuotas: 1, factor: (base) => base * 1.05, coefCuotas: 1 },
-    debit: { label: 'Débito', type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
-    'credit-1': { label: 'Crédito 1c', type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
-    'credit-3': { label: 'Crédito 3c', type: 'ars', cuotas: 3, factor: (base) => base / 0.70, coefCuotas: 1.0620 },
-    'credit-6': { label: 'Crédito 6c', type: 'ars', cuotas: 6, factor: (base) => base / 0.70, coefCuotas: 1.1030 },
-    'credit-9': { label: 'Crédito 9c', type: 'ars', cuotas: 9, factor: (base) => base / 0.70, coefCuotas: 1.1530 },
-    'credit-12': { label: 'Crédito 12c', type: 'ars', cuotas: 12, factor: (base) => base / 0.70, coefCuotas: 1.1950 },
-    'credit-18': { label: 'Crédito 18c', type: 'ars', cuotas: 18, factor: (base) => base / 0.70, coefCuotas: 1.2610 },
-    paypal: { label: 'PayPal', type: 'usd', cuotas: 1, factor: (base) => base * 1.20, coefCuotas: 1 },
-    usdt: { label: 'USDT', type: 'usd', cuotas: 1, factor: (base) => base * 1.02, coefCuotas: 1 },
+    efect: { label: 'Efectivo', type: 'ars', cuotas: 1, factor: 1 },
+    transfer: { label: 'Transferencia', type: 'ars', cuotas: 1, factor: 1.05 },
+    debit: { label: 'Débito', type: 'ars', cuotas: 1, factor: grossUp(IVA, IIBB, ARANCEL_DEBITO) },
+    'credit-1': { label: 'Crédito 1c', type: 'ars', cuotas: 1, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0) },
+    'credit-3': { label: 'Crédito 3c', type: 'ars', cuotas: 3, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.07502) },
+    'credit-6': { label: 'Crédito 6c', type: 'ars', cuotas: 6, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.12463) },
+    'credit-9': { label: 'Crédito 9c', type: 'ars', cuotas: 9, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.18513) },
+    'credit-12': { label: 'Crédito 12c', type: 'ars', cuotas: 12, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.23595) },
+    'credit-18': { label: 'Crédito 18c', type: 'ars', cuotas: 18, factor: grossUp(IVA, IIBB, ARANCEL_CREDITO, 0.31581) },
+    paypal: { label: 'PayPal', type: 'usd', cuotas: 1, factor: 1.20 },
+    usdt: { label: 'USDT', type: 'usd', cuotas: 1, factor: 1.02 },
 }
 
 const formatARS = (n) => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 })
@@ -108,8 +117,7 @@ calculate1 = async () => {
 
     // Calcular resultado
     const dollarToUse = config.type === 'ars' ? dollarPlusEfect : 1;
-    const baseResult = config.factor(price * dollarToUse);
-    const clientResult = baseResult * config.coefCuotas;
+    const clientResult = price * dollarToUse * config.factor;
     const cuotaResult = clientResult / config.cuotas;
 
     // Formatear y mostrar resultado

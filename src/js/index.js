@@ -7,6 +7,7 @@ const ARANCEL_DEBITO = 0.038
 const MARKUP_TARJETA = 1.05
 
 // Como todas las tasas se aplican sobre el mismo total, se suman (no se encadenan divisiones)
+const grossUp = (...tasas) => 1 / (1 - tasas.reduce((a, b) => a + b, 0))
 const tarjeta = (...tasas) => MARKUP_TARJETA * grossUp(...tasas)
 
 // Configuración de métodos de pago

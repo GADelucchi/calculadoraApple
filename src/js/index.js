@@ -3,20 +3,25 @@ const IIBB = 0.005
 const ARANCEL_CREDITO = 0.0761
 const ARANCEL_DEBITO = 0.038
 
+// Margen extra que se busca retener por cobrar con tarjeta
+const MARKUP_TARJETA = 1.05
 
+// Como todas las tasas se aplican sobre el mismo total, se suman (no se encadenan divisiones)
+const tarjeta = (...tasas) => MARKUP_TARJETA * grossUp(...tasas)
 
+// Configuración de métodos de pago
 const PAYMENT_METHODS = {
-    efect:     { label: 'Efectivo',     type: 'ars', cuotas: 1, factor: (base) => base, coefCuotas: 1 },
-    transfer:  { label: 'Transferencia',type: 'ars', cuotas: 1, factor: (base) => base * 1.05, coefCuotas: 1 },
-    debit:     { label: 'Débito',       type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
-    'credit-1':{ label: 'Crédito 1c',  type: 'ars', cuotas: 1, factor: (base) => base / 0.70, coefCuotas: 1 },
-    'credit-3':{ label: 'Crédito 3c',  type: 'ars', cuotas: 3, factor: (base) => base / 0.70, coefCuotas: 1.0620 },
-    'credit-6':{ label: 'Crédito 6c',  type: 'ars', cuotas: 6, factor: (base) => base / 0.70, coefCuotas: 1.1030 },
-    'credit-9':{ label: 'Crédito 9c',  type: 'ars', cuotas: 9, factor: (base) => base / 0.70, coefCuotas: 1.1530 },
-    'credit-12':{ label: 'Crédito 12c',type: 'ars', cuotas: 12, factor: (base) => base / 0.70, coefCuotas: 1.1950 },
-    'credit-18':{ label: 'Crédito 18c',type: 'ars', cuotas: 18, factor: (base) => base / 0.70, coefCuotas: 1.2610 },
-    paypal:    { label: 'PayPal',       type: 'usd', cuotas: 1, factor: (base) => base * 1.20, coefCuotas: 1 },
-    usdt:      { label: 'USDT',         type: 'usd', cuotas: 1, factor: (base) => base * 1.02, coefCuotas: 1 },
+    efect: { label: 'Efectivo', type: 'ars', cuotas: 1, factor: 1 },
+    transfer: { label: 'Transferencia', type: 'ars', cuotas: 1, factor: 1.05 },
+    debit: { label: 'Débito', type: 'ars', cuotas: 1, factor: tarjeta(IVA, IIBB, ARANCEL_DEBITO) },
+    'credit-1': { label: 'Crédito 1c', type: 'ars', cuotas: 1, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0) },
+    'credit-3': { label: 'Crédito 3c', type: 'ars', cuotas: 3, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.07502) },
+    'credit-6': { label: 'Crédito 6c', type: 'ars', cuotas: 6, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.12463) },
+    'credit-9': { label: 'Crédito 9c', type: 'ars', cuotas: 9, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.18513) },
+    'credit-12': { label: 'Crédito 12c', type: 'ars', cuotas: 12, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.23595) },
+    'credit-18': { label: 'Crédito 18c', type: 'ars', cuotas: 18, factor: tarjeta(IVA, IIBB, ARANCEL_CREDITO, 0.31581) },
+    paypal: { label: 'PayPal', type: 'usd', cuotas: 1, factor: 1.20 },
+    usdt: { label: 'USDT', type: 'usd', cuotas: 1, factor: 1.02 },
 }
 
 const formatARS = (n) => n.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 })

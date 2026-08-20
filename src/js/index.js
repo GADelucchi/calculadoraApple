@@ -42,9 +42,9 @@ function calcDolarAPesos() {
     const config = PAYMENT_METHODS[method]
     if (!config) return
 
-    const baseResult = config.factor(priceDollar * (config.type === 'ars' ? dollarPlusEfect : 1))
-    const clientResult = baseResult * config.coefCuotas
-    const cuotaResult = clientResult / config.cuotas
+    // const baseResult = config.factor(priceDollar * (config.type === 'ars' ? dollarPlusEfect : 1))
+    // const clientResult = baseResult * config.coefCuotas
+    // const cuotaResult = clientResult / config.cuotas
 
         // Calcular resultado
     const dollarToUse = config.type === 'ars' ? dollarPlusEfect : 1;
@@ -57,13 +57,6 @@ function calcDolarAPesos() {
         texto = `El total es de ${formatUSD(baseResult)}`
     } else if (config.cuotas === 1) {
         texto = `El total a cobrar es ${formatARS(clientResult)} en ${config.cuotas} cuota`
-    // } else if (method === 'credit-3') {
-    //     texto = `Total que se le cobrará al cliente en el posnet: ${formatARS(clientResult)} en ${config.cuotas} pagos de ${formatARS(cuotaResult)}.\n` +
-    //             `Total a ingresar en el posnet: ${formatARS(clientResult)}.`
-    // } else {
-    //     texto = `Total que se le cobrará al cliente en el posnet: ${formatARS(clientResult)} en ${config.cuotas} pagos de ${formatARS(cuotaResult)}.\n` +
-    //             `Total a ingresar en el posnet: ${formatARS(baseResult)}.`
-    // }
     } else {
         texto = `El total a cobrar es ${formatARS(clientResult)}, en ${config.cuotas} cuotas de ${formatARS(cuotaResult)} cada una.`
     }

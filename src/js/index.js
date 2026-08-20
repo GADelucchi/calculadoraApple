@@ -42,10 +42,6 @@ function calcDolarAPesos() {
     const config = PAYMENT_METHODS[method]
     if (!config) return
 
-    // const baseResult = config.factor(priceDollar * (config.type === 'ars' ? dollarPlusEfect : 1))
-    // const clientResult = baseResult * config.coefCuotas
-    // const cuotaResult = clientResult / config.cuotas
-
         // Calcular resultado
     const dollarToUse = config.type === 'ars' ? dollarPlusEfect : 1;
     const clientResult = priceDollar * dollarToUse * config.factor;

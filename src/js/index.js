@@ -29,22 +29,27 @@ const formatUSD = (n) => n.toLocaleString('es-AR', { style: 'currency', currency
 
 function calcDolarAPesos() {
     const dollarBase = parseFloat(document.getElementById('dollarInput').value)
-    const dollarPlus = dollarBase + 50
+    const dollarPlusEfect = dollarBase + 50
     const method = document.getElementById('methodSelect').value
     const efectRaw = parseFloat(document.getElementById('efectInput').value) || 0
 
     let priceDollar = parseFloat(document.getElementById('priceDollarInput').value)
 
     if (efectRaw > 0) {
-        priceDollar -= efectRaw / dollarPlus
+        priceDollar -= efectRaw / dollarPlusEfect
     }
 
     const config = PAYMENT_METHODS[method]
     if (!config) return
 
-    const baseResult = config.factor(priceDollar * (config.type === 'ars' ? dollarPlus : 1))
+    const baseResult = config.factor(priceDollar * (config.type === 'ars' ? dollarPlusEfect : 1))
     const clientResult = baseResult * config.coefCuotas
     const cuotaResult = clientResult / config.cuotas
+
+        // Calcular resultado
+    const dollarToUse = config.type === 'ars' ? dollarPlusEfect : 1;
+    const clientResult = priceDollar * dollarToUse * config.factor;
+    const cuotaResult = clientResult / config.cuotas;
 
     let texto
 

@@ -1,3 +1,10 @@
+const IVA = 0.21
+const IIBB = 0.005
+const ARANCEL_CREDITO = 0.0761
+const ARANCEL_DEBITO = 0.038
+
+
+
 const PAYMENT_METHODS = {
     efect:     { label: 'Efectivo',     type: 'ars', cuotas: 1, factor: (base) => base, coefCuotas: 1 },
     transfer:  { label: 'Transferencia',type: 'ars', cuotas: 1, factor: (base) => base * 1.05, coefCuotas: 1 },
